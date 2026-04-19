@@ -15,13 +15,16 @@
 
 ---
 
-## 🏗 Tech Stack
+## 🛠️ Tech Stack
 
-- **Scrapping/Parsing:** Unstructured , Requests
-- **Backend:** Python, FastAPI, LangChain, Groq 
-- **Retrieval:** Pinecone, SentenceTransformers (`all-MiniLM-L6-v2`)
-- **Frontend:** Vanilla HTML/CSS/JS (served as static assets)
-- **DevOps:** Docker, Docker Compose
+| Layer               | Technology                                              |
+|--------------------|----------------------------------------------------------|
+| Scraping & Parsing | Unstructured, Requests                                   |
+| Backend            | Python, FastAPI, LangChain, Groq                         |
+| Embeddings         | SentenceTransformers (`all-MiniLM-L6-v2`)                |
+| Vector DB          | Pinecone                                                 |
+| Frontend           | Vanilla HTML, CSS, JavaScript (static assets)            |
+| DevOps             | Docker, Docker Compose                                   |
 
 ---
 
