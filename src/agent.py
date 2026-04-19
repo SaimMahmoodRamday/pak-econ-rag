@@ -251,18 +251,19 @@ def create_agent() -> ReActAgent:
     return ReActAgent(llm=llm)
 
 
-def run_agent(agent: ReActAgent, question: str) -> str:
+def run_agent(agent: ReActAgent, question: str, verbose: bool = True) -> str:
     """
     Run the agent on a single question and return the final answer.
 
     Args:
         agent:    A ReActAgent created by create_agent().
         question: The user's natural-language question.
+        verbose:  If True, print ReAct steps to stdout (CLI). Use False for API servers.
 
     Returns:
         The agent's final answer as a string.
     """
-    return agent.run(question, verbose=True)
+    return agent.run(question, verbose=verbose)
 
 
 # ---------------------------------------------------------------------------

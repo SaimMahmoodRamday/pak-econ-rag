@@ -1,0 +1,24 @@
+services:
+  pakecon-bootstrap:
+    build: .
+    env_file:
+      - .env
+    environment:
+      - PINECONE_INDEX_NAME=${PINECONE_INDEX_NAME:-pak-econ-rag}
+    volumes:
+      - ./:/app
+    command: >
+      sh -c "python wiki_to_rag_v3.py && python src/ingest.py"
+    profiles:
+      - bootstrap
+
+  pakecon:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      # Optional: override index name
+      - PINECONE_INDEX_NAME=${PINECONE_INDEX_NAME:-pak-econ-rag}
+    restart: unless-stopped

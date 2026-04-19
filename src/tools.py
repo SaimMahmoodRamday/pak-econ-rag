@@ -105,7 +105,10 @@ def table_search(query: str) -> str:
 
     Use this tool when the user asks for specific numeric data, year-by-year
     statistics, GDP figures, inflation rates, unemployment numbers,
-    trade values, or any tabular data (e.g., "GDP in 2005", "inflation 1990s").
+    trade values, or any tabular data (e.g., "GDP in 2022", "inflation 2025").
+
+    ALWAYS use this tool for questions that compare two years
+    (e.g. "2022 vs 2025", "which year was better").
 
     Args:
         query: A natural-language query about numeric or tabular data.
@@ -113,10 +116,11 @@ def table_search(query: str) -> str:
     Returns:
         Top 5 matched table rows or table summaries.
     """
-    results = retrieve(query, top_k=5, chunk_type="table_row")
+    results = retrieve(query, top_k=5, chunk_type="table")
     if not results:
-        # Fall back to table summaries if no row matches
-        results = retrieve(query, top_k=5, chunk_type="table_summary")
+        # Broader fallback: search all chunks (tables may be returned by
+        # general search at lower scores)
+        results = retrieve(query, top_k=5)
     return format_results(results)
 
 

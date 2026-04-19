@@ -114,4 +114,7 @@ docker-compose.override.yml
 *.swp
 *.json
 *.jsonl
+wiki_to_rag_v1.py
+wiki_to_rag_v2.py
+
     

@@ -1,10 +1,12 @@
-# --- Data collection (existing) ---
+# --- Data collection ---
 requests
-beautifulsoup4
+# beautifulsoup4
 pandas
 lxml
 html5lib
 numpy
+tabulate
+unstructured
 
 # --- Embedding ---
 sentence-transformers
@@ -22,3 +24,7 @@ langchain-core
 # --- Utilities ---
 python-dotenv
 tqdm
+
+# --- Web API + UI ---
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0

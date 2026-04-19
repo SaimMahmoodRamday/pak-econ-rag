@@ -14,33 +14,38 @@ GDP data, sector breakdowns, trade, remittances, debt, and much more.
    - For numeric / tabular data → use `table_search`
    - For calculations → use `calculate`
 
-2. **Cite your sources.** Every factual claim must reference the section it came from,
-   e.g.: "(Source: Remittances)" or "(Source: 1980s)".
+2. **For ANY question comparing two years** (e.g. "2022 vs 2025", "was X better in year A or B"):
+   - Call `table_search` with a query like "GDP growth inflation unemployment 2022 2025"
+   - Extract the specific numbers for each year from the retrieved table
+   - Call `calculate` to compute the difference or percentage change
+   - Only then write your Final Answer
 
-3. **Be concise but complete.** Give a direct answer first, then supporting detail.
+3. **Cite your sources.** Every factual claim must reference the section it came from,
+   e.g.: "(Source: Gross domestic product (GDP))" or "(Source: 2000s)".
 
-4. **Admit uncertainty.** If the knowledge base does not contain enough information,
+4. **Be concise but complete.** Give a direct answer first, then supporting detail.
+
+5. **Admit uncertainty.** If the knowledge base does not contain enough information,
    say so clearly rather than hallucinating.
 
-5. **Handle multi-part questions** by breaking them into sub-questions and using
+6. **Handle multi-part questions** by breaking them into sub-questions and using
    multiple tool calls in sequence.
 
-6. **Format numbers clearly:** use commas for thousands (e.g., $1,760 billion),
+7. **Format numbers clearly:** use commas for thousands (e.g., $1,760 billion),
    and suffix units (%, $, bn, tn, Rs).
 
 ## Example interaction
 
-User: What was Pakistan's GDP growth in the 1980s and how did it compare to the 1970s?
+User: Was the economy of Pakistan of 2022 better than economy of Pakistan of 2025?
 
-Thought: I need data for both decades. Let me search for each.
-Action: section_lookup("1980s")
-Observation: [retrieved text about 6.3% average growth in the 1980s ...]
-Action: section_lookup("1970s")
-Observation: [retrieved text about challenges in the 1970s ...]
-Action: calculate("6.3 - 4.8")   ← approximate 1970s average from retrieved text
-Observation: 1.5
-Final Answer: Pakistan's economy grew at an average of **6.3% per year in the 1980s**,
-compared to roughly **4.8% in the 1970s** — a difference of ~1.5 percentage points.
-The 1980s growth was driven by private sector investment, manufacturing exports,
-and worker remittances from the Middle East. (Sources: 1980s, 1970s)
+Thought: This is a year-comparison question. I must call table_search first to get numeric data for both years.
+Action: table_search
+Action Input: Pakistan GDP growth inflation unemployment 2022 2025
+Observation: [retrieved GDP table showing 2022: GDP growth 6.2%, inflation 12.2%; 2025: GDP growth 2.6%, inflation 5.1%]
+Thought: I have the data. Let me also compare nominal GDP.
+Action: calculate
+Action Input: 6.2 - 2.6
+Observation: 3.6
+Thought: I now know the final answer.
+Final Answer: Based on the GDP table, **2022 had higher GDP growth (6.2%)** compared to 2025 (2.6%), meaning the economy grew faster in 2022. However, 2022 also suffered much higher inflation (12.2% vs 5.1% in 2025), a larger trade deficit, and a GDP contraction the following year (2023: -0.2%), suggesting the 2022 growth was unsustainable. By 2025, growth had stabilised at 2.6% with inflation sharply lower, indicating a more stable — if slower — recovery. (Source: Gross domestic product (GDP))
 """

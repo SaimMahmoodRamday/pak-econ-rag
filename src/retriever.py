@@ -21,6 +21,10 @@ PINECONE_API_KEY = os.environ["PINECONE_API_KEY"]
 INDEX_NAME       = os.getenv("PINECONE_INDEX_NAME", "pak-econ-rag")
 EMBED_MODEL      = "sentence-transformers/all-MiniLM-L6-v2"
 DEFAULT_TOP_K    = 5
+# Text chunks get a reasonable semantic threshold; numeric/table blobs
+# score lower because raw numbers have poor semantic overlap with queries.
+DEFAULT_SCORE_THRESHOLD       = 0.30
+TABLE_SCORE_THRESHOLD         = 0.20
 
 
 # ---------------------------------------------------------------------------
@@ -55,15 +59,19 @@ def retrieve(
     top_k: int = DEFAULT_TOP_K,
     chunk_type: str | None = None,
     section: str | None = None,
+    score_threshold: float | None = None,
 ) -> list[dict]:
     """
     Embed *query* and return the top-k matching chunks from Pinecone.
 
     Args:
-        query:       Natural-language query string.
-        top_k:       Number of results to return.
-        chunk_type:  Optional filter — "text", "table_row", or "table_summary".
-        section:     Optional filter — exact section heading to restrict results to.
+        query:            Natural-language query string.
+        top_k:            Number of results to return.
+        chunk_type:       Optional filter — "text" or "table".
+        section:          Optional filter — exact section heading to restrict results to.
+        score_threshold:  Minimum cosine similarity to accept. Defaults to
+                          TABLE_SCORE_THRESHOLD when chunk_type=="table",
+                          otherwise DEFAULT_SCORE_THRESHOLD.
 
     Returns:
         List of dicts with keys: score, id, text, type, section, table_id.
@@ -87,11 +95,14 @@ def retrieve(
         filter=filter_dict if filter_dict else None,
     )
 
-    SCORE_THRESHOLD = 0.65
+    # Use a lower threshold for table chunks — raw numeric text scores poorly
+    # against natural-language queries even when the content is highly relevant.
+    if score_threshold is None:
+        score_threshold = TABLE_SCORE_THRESHOLD if chunk_type == "table" else DEFAULT_SCORE_THRESHOLD
 
     results = []
     for match in response.get("matches", []):
-        if match["score"] < SCORE_THRESHOLD:
+        if match["score"] < score_threshold:
             continue
         meta = match.get("metadata", {})
         results.append(
