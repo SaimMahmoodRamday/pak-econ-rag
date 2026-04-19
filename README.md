@@ -1,7 +1,6 @@
 # PakEconBot 
 
-**PakEconBot** is an end-to-end Agentic RAG application for answering questions about Pakistan's economy.  
-It includes a data pipeline (`wiki_to_rag_v3.py` -> `ingest.py`), a ReAct-style reasoning agent, Pinecone-backed retrieval, and a clean web chat interface served by FastAPI.
+**PakEconBot** is a production-ready, end-to-end Agentic RAG system designed to deliver accurate, context-aware answers on Pakistan’s economy.
 
 ---
 
@@ -132,15 +131,6 @@ docker compose up
 - `POST /api/clear` - clear memory for one `conversation_id`
 - `DELETE /api/conversation/{conversation_id}` - remove cached conversation agent
 - `GET /health` - service health check
-
-Example request:
-
-```json
-{
-  "message": "What is Pakistan's GDP as of 2026?",
-  "conversation_id": "optional-thread-id"
-}
-```
 
 ---
 
