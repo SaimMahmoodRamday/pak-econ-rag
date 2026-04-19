@@ -1,0 +1,117 @@
+# =========================
+# Python Basics
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# =========================
+# Virtual Environments
+# =========================
+venv/
+env/
+.venv/
+ENV/
+
+# =========================
+# Environment Variables
+# =========================
+.env
+.env.*
+*.env
+
+# =========================
+# Logs & Runtime Files
+# =========================
+*.log
+*.out
+*.err
+*.pid
+
+# =========================
+# Jupyter Notebooks
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# Packaging / Build
+# =========================
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+
+# =========================
+# Testing / Coverage
+# =========================
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.tox/
+.nox/
+
+# =========================
+# IDE / Editor Files
+# =========================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# =========================
+# OS Files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# RAG / ML Specific
+# =========================
+
+# Model weights / checkpoints
+models/
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+*.bin
+
+# Embeddings / vector stores
+vectorstore/
+chroma/
+faiss_index/
+*.faiss
+*.pkl
+
+# Data files (optional - adjust if needed)
+data/
+datasets/
+
+# Cache (HuggingFace / transformers)
+.cache/
+huggingface/
+hf_cache/
+
+# LangChain / LLM artifacts
+langchain.db
+*.sqlite3
+
+# =========================
+# Docker
+# =========================
+docker-compose.override.yml
+
+# =========================
+# Misc
+# =========================
+*.bak
+*.tmp
+*.swp
+*.json
+*.jsonl
+    

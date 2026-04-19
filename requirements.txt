@@ -1,0 +1,24 @@
+# --- Data collection (existing) ---
+requests
+beautifulsoup4
+pandas
+lxml
+html5lib
+numpy
+
+# --- Embedding ---
+sentence-transformers
+
+# --- Vector store ---
+pinecone>=3.0.0
+
+# --- LLM + Agent ---
+groq
+langchain>=0.2.0
+langchain-groq
+langchain-community
+langchain-core
+
+# --- Utilities ---
+python-dotenv
+tqdm
