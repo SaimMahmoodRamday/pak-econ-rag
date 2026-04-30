@@ -25,12 +25,11 @@
 | Embeddings          | SentenceTransformers (`all-MiniLM-L6-v2`)               |
 | Vector DB           | Pinecone                                                |
 | Frontend            | React + Vite, react-markdown (GFM + syntax highlight)   |
-| Frontend serving    | nginx (proxies `/api` → backend container)              |
 | DevOps              | Docker, Docker Compose                                  |
 
 ---
 
-## 🏛️ Architecture
+<!-- ## 🏛️ Architecture
 
 ```text
                 ┌─────────────────────┐         ┌─────────────────────┐
@@ -47,7 +46,7 @@
 - **Backend container** (`Dockerfile`): API-only FastAPI/uvicorn. Does **not** serve any HTML.
 - **Bootstrap service** (one-shot): runs `wiki_to_rag_v3.py` and `src/ingest.py` to populate Pinecone.
 
----
+--- -->
 
 ## 📁 Project Structure
 
@@ -232,7 +231,7 @@ python app.py
 
 ---
 
-## 🛠 Troubleshooting
+<!-- ## 🛠 Troubleshooting
 
 - **`GET / 404 Not Found` in backend logs** — expected. The backend is API-only. Open the UI at **http://localhost:8080** instead. Hitting `http://localhost:8000/` directly now returns a JSON pointing at the UI and `/docs`.
 - **`localhost:8080` doesn’t load** — the frontend container probably isn’t running. Check it:
@@ -247,7 +246,7 @@ python app.py
 - **No Docker engine** — start Docker Desktop before running `docker compose`.
 - **Empty or weak answers** — rerun the bootstrap profile to refresh `chunks.jsonl` and Pinecone vectors.
 - **Slow first response** — model and Pinecone clients initialize lazily on first query (first call after a fresh start can take 10–20s).
-- **CORS errors in local dev** — only happens if you bypass the Vite proxy. Set `CORS_ORIGINS=http://localhost:5173,http://localhost:4173` in `.env` and restart the backend.
+- **CORS errors in local dev** — only happens if you bypass the Vite proxy. Set `CORS_ORIGINS=http://localhost:5173,http://localhost:4173` in `.env` and restart the backend. -->
 
 ---
 
