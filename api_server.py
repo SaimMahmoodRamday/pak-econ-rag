@@ -1,10 +1,11 @@
 """
-HTTP API + static frontend for PakEconBot.
+PakEconBot HTTP API.
 
 Run locally:
     uvicorn api_server:app --reload --host 127.0.0.1 --port 8000
 
-Open http://127.0.0.1:8000
+The UI is served separately by the frontend container (nginx) in Docker, or by
+Vite (`npm run dev` / `npm run preview`) during local development.
 """
 
 from __future__ import annotations
@@ -13,13 +14,10 @@ import logging
 import os
 import uuid
 from collections import OrderedDict
-from pathlib import Path
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
-from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from starlette.concurrency import run_in_threadpool
 
@@ -28,15 +26,14 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-FRONTEND_DIR = Path(__file__).resolve().parent / "frontend"
-ASSETS_DIR = FRONTEND_DIR / "assets"
-
 MAX_CONVERSATIONS = 64
 _agents: OrderedDict[str, object] = OrderedDict()
 
 app = FastAPI(title="PakEconBot API", version="1.0.0")
 
-# Allow local dev when UI is served from another origin (optional).
+# Optional CORS — only needed when the browser hits the API from a different
+# origin than the proxy (e.g. Vite preview without proxy). The Docker setup
+# and the Vite dev proxy do not need this.
 _cors_origins = os.getenv("CORS_ORIGINS", "").strip()
 if _cors_origins:
     app.add_middleware(
@@ -85,6 +82,17 @@ def _get_or_create_agent(conversation_id: str):
 
 def _drop_conversation(conversation_id: str) -> None:
     _agents.pop(conversation_id, None)
+
+
+@app.get("/")
+async def root() -> dict[str, str]:
+    return {
+        "service": "PakEconBot API",
+        "ui": "http://localhost:8080",
+        "docs": "/docs",
+        "health": "/health",
+        "chat": "POST /api/chat",
+    }
 
 
 @app.get("/health")
@@ -136,15 +144,3 @@ async def delete_conversation(conversation_id: str) -> dict[str, str]:
         raise HTTPException(status_code=400, detail="conversation_id required")
     _drop_conversation(cid)
     return {"status": "deleted", "conversation_id": cid}
-
-
-if ASSETS_DIR.is_dir():
-    app.mount("/assets", StaticFiles(directory=ASSETS_DIR), name="assets")
-
-
-@app.get("/")
-async def serve_index() -> FileResponse:
-    index = FRONTEND_DIR / "index.html"
-    if not index.is_file():
-        raise HTTPException(status_code=404, detail="Frontend not built or missing index.html")
-    return FileResponse(index)

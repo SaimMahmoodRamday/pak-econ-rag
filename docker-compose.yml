@@ -1,6 +1,7 @@
 services:
-  pakecon-bootstrap:
-    build: .
+  bootstrap:
+    build:
+      context: .
     env_file:
       - .env
     environment:
@@ -12,13 +13,22 @@ services:
     profiles:
       - bootstrap
 
-  pakecon:
-    build: .
+  backend:
+    build:
+      context: .
     ports:
       - "8000:8000"
     env_file:
       - .env
     environment:
-      # Optional: override index name
       - PINECONE_INDEX_NAME=${PINECONE_INDEX_NAME:-pak-econ-rag}
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
     restart: unless-stopped

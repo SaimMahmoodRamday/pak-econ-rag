@@ -1,4 +1,4 @@
-# PakEconBot: FastAPI backend + static frontend
+# PakEconBot backend: FastAPI / uvicorn
 FROM python:3.12-slim-bookworm
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -13,7 +13,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY src ./src
 COPY api_server.py .
 COPY wiki_to_rag_v3.py .
-COPY frontend ./frontend
 
 EXPOSE 8000
 
