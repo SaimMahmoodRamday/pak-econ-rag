@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy to EC2
+      - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -33,7 +33,7 @@ jobs:
               git reset --hard origin/main
               git clean -fd
             else
-              echo "📦 Fresh clone (or broken folder detected)..."
+              echo "📦 Fresh clone / broken repo detected..."
               rm -rf "$APP_DIR"
               git clone "$REPO_URL" "$APP_DIR"
             fi
@@ -41,15 +41,31 @@ jobs:
             cd "$APP_DIR"
 
             # ---------------------------
-            # DOCKER DEPLOY
+            # DOCKER CHECK (important fix)
             # ---------------------------
-            echo "🐳 Stopping old containers..."
-            docker-compose -f docker-compose.prod.yml down || true
+            if ! command -v docker &> /dev/null; then
+              echo "🐳 Installing Docker..."
+              sudo apt update
+              sudo apt install docker.io -y
+              sudo systemctl start docker
+              sudo systemctl enable docker
+            fi
+
+            if ! docker compose version &> /dev/null; then
+              echo "🐳 Installing Docker Compose plugin..."
+              sudo apt install docker-compose-plugin -y
+            fi
+
+            # ---------------------------
+            # DEPLOY
+            # ---------------------------
+            echo "🐳 Stopping containers..."
+            docker compose -f docker-compose.prod.yml down || true
 
             echo "🔨 Building containers..."
-            docker-compose -f docker-compose.prod.yml build
+            docker compose -f docker-compose.prod.yml build
 
             echo "🚀 Starting containers..."
-            docker-compose -f docker-compose.prod.yml up -d
+            docker compose -f docker-compose.prod.yml up -d
 
-            echo "✅ Deployment completed successfully!"
+            echo "✅ Deployment successful!"
