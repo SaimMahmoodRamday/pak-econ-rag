@@ -21,16 +21,35 @@ jobs:
             APP_DIR="/home/ubuntu/pak-econ-bot"
             REPO_URL="https://${{ secrets.GH_USERNAME }}:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git"
 
-            if [ ! -d "$APP_DIR/.git" ]; then
-              git clone "$REPO_URL" "$APP_DIR"
-            else
+            echo "🚀 Starting deployment..."
+
+            # ---------------------------
+            # SAFE REPO SYNC
+            # ---------------------------
+            if [ -d "$APP_DIR/.git" ]; then
+              echo "📦 Existing repo found. Updating..."
               cd "$APP_DIR"
               git fetch origin main
               git reset --hard origin/main
+              git clean -fd
+            else
+              echo "📦 Fresh clone (or broken folder detected)..."
+              rm -rf "$APP_DIR"
+              git clone "$REPO_URL" "$APP_DIR"
             fi
 
             cd "$APP_DIR"
 
+            # ---------------------------
+            # DOCKER DEPLOY
+            # ---------------------------
+            echo "🐳 Stopping old containers..."
             docker-compose -f docker-compose.prod.yml down || true
+
+            echo "🔨 Building containers..."
             docker-compose -f docker-compose.prod.yml build
+
+            echo "🚀 Starting containers..."
             docker-compose -f docker-compose.prod.yml up -d
+
+            echo "✅ Deployment completed successfully!"
