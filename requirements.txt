@@ -1,12 +1,20 @@
-# --- Data collection ---
-requests
-# beautifulsoup4
-pandas
-lxml
-html5lib
-numpy
-tabulate
-unstructured
+# ============================================================
+# EC2 DEPLOYMENT NOTE:
+# The bootstrap scripts (wiki_to_rag*.py, src/ingest.py) are
+# NOT run on the EC2 server. Dependencies used ONLY by those
+# scripts are commented out below to save disk space.
+# Uncomment them locally when you need to re-generate chunks
+# or re-ingest data into Pinecone.
+# ============================================================
+
+# --- Data collection (bootstrap only — NOT needed on EC2) ---
+# requests
+# pandas
+# lxml
+# html5lib
+# numpy
+# tabulate
+# unstructured
 
 # --- Embedding ---
 sentence-transformers
@@ -23,7 +31,7 @@ langchain-core
 
 # --- Utilities ---
 python-dotenv
-tqdm
+# tqdm  # bootstrap/ingest only — NOT needed on EC2
 
 # --- Web API + UI ---
 fastapi>=0.115.0
