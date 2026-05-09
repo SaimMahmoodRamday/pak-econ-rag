@@ -8,8 +8,8 @@ import os
 from functools import lru_cache
 
 from dotenv import load_dotenv
+from fastembed import TextEmbedding
 from pinecone import Pinecone
-from sentence_transformers import SentenceTransformer
 
 load_dotenv()
 
@@ -31,14 +31,14 @@ TABLE_SCORE_THRESHOLD         = 0.20
 # Lazy singletons (loaded once, reused across all calls)
 # ---------------------------------------------------------------------------
 
-_model: SentenceTransformer | None = None
+_model: TextEmbedding | None = None
 _index = None
 
 
-def _get_model() -> SentenceTransformer:
+def _get_model() -> TextEmbedding:
     global _model
     if _model is None:
-        _model = SentenceTransformer(EMBED_MODEL)
+        _model = TextEmbedding(EMBED_MODEL)
     return _model
 
 
@@ -86,7 +86,7 @@ def retrieve(
     if section:
         filter_dict["section"] = {"$eq": section}
 
-    query_vec = model.encode(query).tolist()
+    query_vec = list(model.embed([query]))[0].tolist()
 
     response = index.query(
         vector=query_vec,

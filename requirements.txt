@@ -17,8 +17,10 @@
 # unstructured
 
 # --- Embedding ---
-# commenting out just for testing
-# sentence-transformers 
+# fastembed uses ONNX Runtime instead of PyTorch — identical vectors,
+# same model (all-MiniLM-L6-v2), ~700 MB lighter than sentence-transformers.
+fastembed
+# sentence-transformers  # commented out: pulls in PyTorch (~800 MB), too heavy for EC2 free tier
 
 # --- Vector store ---
 pinecone>=3.0.0
