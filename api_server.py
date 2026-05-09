@@ -117,11 +117,21 @@ async def chat(body: ChatRequest) -> ChatResponse:
         logger.exception("Configuration error")
         raise HTTPException(
             status_code=503,
-            detail=f"Server configuration error (missing env): {e}",
+            detail=(
+                "The service is temporarily unavailable due to a configuration issue. "
+                "Please try again later or contact the administrator. "
+                f"(Missing setting: {e})"
+            ),
         ) from e
     except Exception as e:
         logger.exception("Agent run failed")
-        raise HTTPException(status_code=500, detail=str(e)) from e
+        raise HTTPException(
+            status_code=500,
+            detail=(
+                "Something went wrong while processing your request — please try again. "
+                f"If the problem persists, the error was: {type(e).__name__}: {e}"
+            ),
+        ) from e
 
     return ChatResponse(answer=answer, conversation_id=cid)
 

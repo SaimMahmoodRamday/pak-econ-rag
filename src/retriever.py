@@ -5,7 +5,6 @@ This module is the shared retrieval backbone used by all agent tools.
 """
 
 import os
-from functools import lru_cache
 
 from dotenv import load_dotenv
 from fastembed import TextEmbedding
@@ -86,14 +85,20 @@ def retrieve(
     if section:
         filter_dict["section"] = {"$eq": section}
 
-    query_vec = list(model.embed([query]))[0].tolist()
+    try:
+        query_vec = list(model.embed([query]))[0].tolist()
+    except Exception as e:
+        raise RuntimeError(f"Embedding failed — check fastembed model: {e}") from e
 
-    response = index.query(
-        vector=query_vec,
-        top_k=top_k,
-        include_metadata=True,
-        filter=filter_dict if filter_dict else None,
-    )
+    try:
+        response = index.query(
+            vector=query_vec,
+            top_k=top_k,
+            include_metadata=True,
+            filter=filter_dict if filter_dict else None,
+        )
+    except Exception as e:
+        raise RuntimeError(f"Pinecone query failed — check API key and index name: {e}") from e
 
     # Use a lower threshold for table chunks — raw numeric text scores poorly
     # against natural-language queries even when the content is highly relevant.

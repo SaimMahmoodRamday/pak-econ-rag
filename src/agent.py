@@ -164,8 +164,16 @@ class ReActAgent:
         for step in range(1, MAX_ITERS + 1):
             # ── LLM call ──────────────────────────────────────────────────
             messages = self._build_messages(question, scratchpad)
-            response  = self.llm.invoke(messages)
-            llm_text  = response.content.strip()
+            try:
+                response = self.llm.invoke(messages)
+                llm_text = response.content.strip()
+            except Exception as e:
+                return (
+                    "Sorry, I wasn't able to answer your question right now.\n\n"
+                    "The AI service seems to be temporarily unavailable — "
+                    "please wait a moment and try again.\n\n"
+                    f"*(Technical detail: {type(e).__name__}: {e})*"
+                )
 
             parsed = _parse_react_response(llm_text)
 
