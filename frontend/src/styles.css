@@ -1,53 +1,66 @@
+/* ============================================================
+   PakEconBot — Wikipedia-inspired design
+   All class names are unchanged; only visual tokens updated.
+   ============================================================ */
+
 :root {
   color-scheme: light dark;
-  --bg: #0c1018;
-  --bg-elevated: #131a26;
-  --surface: #1a2332;
-  --surface-2: #243044;
-  --text: #e8eef7;
-  --muted: #8593aa;
-  --muted-2: #5e6d85;
-  --accent: #4f8ff7;
-  --accent-strong: #3d8bfd;
-  --accent-dim: #2a5fad;
-  --user-tint: #243d63;
-  --bot-tint: #1a2332;
-  --border: #283449;
-  --border-strong: #354563;
-  --error: #f87171;
-  --code-bg: #0a111c;
-  --code-bg-2: #111a29;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.18);
-  --radius: 12px;
-  font-family:
-    "Inter", "Segoe UI", system-ui, -apple-system, "Helvetica Neue",
-    sans-serif;
+
+  /* Wikipedia light palette */
+  --bg:           #f8f9fa;
+  --bg-elevated:  #ffffff;
+  --surface:      #ffffff;
+  --surface-2:    #eaecf0;
+  --text:         #202122;
+  --muted:        #54595d;
+  --muted-2:      #72777d;
+  --accent:       #3366cc;
+  --accent-strong:#2a55b0;
+  --accent-dim:   #0645ad;
+  --user-tint:    #f8f9fa;
+  --bot-tint:     #ffffff;
+  --border:       #a2a9b1;
+  --border-strong:#72777d;
+  --error:        #cc3333;
+  --code-bg:      #f8f9fa;
+  --code-bg-2:    #eaecf0;
+  --shadow:       0 1px 3px rgba(0,0,0,0.07);
+  --radius:       2px;
+
+  --font-serif: Georgia, 'Linux Libertine O', 'Times New Roman', serif;
+  --font-ui:    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans',
+                Helvetica, Arial, sans-serif;
+
+  font-family: var(--font-ui);
 }
 
-@media (prefers-color-scheme: light) {
+/* Dark mode — keep functional, Wikipedia-toned */
+@media (prefers-color-scheme: dark) {
   :root {
-    --bg: #f6f8fc;
-    --bg-elevated: #ffffff;
-    --surface: #ffffff;
-    --surface-2: #eef2f8;
-    --text: #1a2332;
-    --muted: #5c6b80;
-    --muted-2: #8a96aa;
-    --user-tint: #e0ecff;
-    --bot-tint: #ffffff;
-    --border: #dde4ef;
-    --border-strong: #c6d0e0;
-    --code-bg: #f1f4f9;
-    --code-bg-2: #e7ecf3;
-    --shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 4px 14px rgba(15, 23, 42, 0.05);
+    --bg:           #0e1117;
+    --bg-elevated:  #1a2030;
+    --surface:      #1a2030;
+    --surface-2:    #243044;
+    --text:         #c8ccd1;
+    --muted:        #72777d;
+    --muted-2:      #54595d;
+    --accent:       #6699ff;
+    --accent-strong:#5588ee;
+    --accent-dim:   #3366cc;
+    --user-tint:    #243044;
+    --bot-tint:     #1a2030;
+    --border:       #3d4555;
+    --border-strong:#54607a;
+    --error:        #ff6b6b;
+    --code-bg:      #0e1117;
+    --code-bg-2:    #1a2030;
+    --shadow:       0 1px 4px rgba(0,0,0,0.3);
   }
 }
 
 *,
 *::before,
-*::after {
-  box-sizing: border-box;
-}
+*::after { box-sizing: border-box; }
 
 html, body {
   margin: 0;
@@ -56,14 +69,10 @@ html, body {
 
 body {
   min-height: 100vh;
-  background:
-    radial-gradient(circle at 20% 0%, rgba(79, 143, 247, 0.08), transparent 40%),
-    radial-gradient(circle at 80% 100%, rgba(79, 143, 247, 0.06), transparent 35%),
-    var(--bg);
+  background: var(--bg);
   color: var(--text);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 .app {
@@ -72,51 +81,52 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 1.25rem 1.25rem 1.5rem;
+  padding: 0 1.25rem 1.5rem;
 }
 
-/* ---------- Header ---------- */
+/* ── Header — Wikipedia top-bar style ── */
 
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding-bottom: 1rem;
+  padding: 0.75rem 0 0.65rem;
   border-bottom: 1px solid var(--border);
+  background: var(--bg-elevated);
 }
 
 .brand {
   display: flex;
-  gap: 0.85rem;
+  gap: 0.75rem;
   align-items: center;
 }
 
 .brand-icon {
-  font-size: 1.85rem;
+  font-size: 1.55rem;
   line-height: 1;
-  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.15));
 }
 
+/* Wikipedia-style serif project title */
 .header h1 {
   margin: 0;
-  font-size: 1.25rem;
-  font-weight: 650;
-  letter-spacing: -0.02em;
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: normal;
+  letter-spacing: 0;
+  color: var(--text);
 }
 
 .tagline {
-  margin: 0.1rem 0 0;
-  font-size: 0.78rem;
+  margin: 0.05rem 0 0;
+  font-size: 0.76rem;
+  font-style: italic;
   color: var(--muted);
-  letter-spacing: 0.01em;
 }
 
-.header-actions {
-  flex-shrink: 0;
-}
+.header-actions { flex-shrink: 0; }
 
-/* ---------- Chat area ---------- */
+/* ── Chat area ── */
 
 .chat {
   flex: 1;
@@ -124,86 +134,80 @@ body {
   padding: 1.25rem 0 0.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 0;                   /* Wikipedia sections flow without gaps */
   scroll-behavior: smooth;
 }
 
-.chat::-webkit-scrollbar {
-  width: 8px;
-}
+.chat::-webkit-scrollbar { width: 6px; }
 .chat::-webkit-scrollbar-thumb {
   background: var(--border);
-  border-radius: 4px;
+  border-radius: 3px;
 }
-.chat::-webkit-scrollbar-thumb:hover {
-  background: var(--border-strong);
-}
+.chat::-webkit-scrollbar-thumb:hover { background: var(--border-strong); }
 
-/* ---------- Empty state ---------- */
+/* ── Empty state — Wikipedia hatnote style ── */
 
 .empty-state {
   margin: auto 0;
-  text-align: center;
   padding: 2rem 0.5rem;
+  text-align: center;
 }
 
 .empty-state-icon {
   font-size: 2.5rem;
   margin-bottom: 0.85rem;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.15));
 }
 
 .empty-state-title {
-  margin: 0 0 0.5rem;
-  font-size: 1.5rem;
-  font-weight: 650;
-  letter-spacing: -0.02em;
+  margin: 0 0 0.4rem;
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: normal;
+  color: var(--text);
 }
 
 .empty-state-subtitle {
-  margin: 0 auto 1.75rem;
+  margin: 0 auto 1.5rem;
   max-width: 32rem;
   color: var(--muted);
-  font-size: 0.92rem;
+  font-size: 0.88rem;
+  font-style: italic;
 }
 
+/* "See also" style suggestion box */
 .suggestions {
-  display: grid;
-  gap: 0.65rem;
-  grid-template-columns: 1fr 1fr;
-  max-width: 38rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: 32rem;
   margin: 0 auto;
-}
-
-@media (max-width: 600px) {
-  .suggestions {
-    grid-template-columns: 1fr;
-  }
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  border-radius: var(--radius);
+  overflow: hidden;
 }
 
 .suggestion {
   text-align: left;
-  padding: 0.85rem 1rem;
-  border: 1px solid var(--border);
+  padding: 0.6rem 0.9rem;
+  border: none;
+  border-bottom: 1px solid var(--border);
   background: var(--bg-elevated);
-  color: var(--text);
-  border-radius: var(--radius);
+  color: var(--accent);
   cursor: pointer;
   font: inherit;
   font-size: 0.875rem;
   line-height: 1.45;
-  transition:
-    border-color 0.15s ease,
-    background 0.15s ease,
-    transform 0.15s ease,
-    box-shadow 0.15s ease;
+  transition: background 0.12s ease;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
+.suggestion:last-child { border-bottom: none; }
+
 .suggestion:hover:not(:disabled) {
-  border-color: var(--accent);
   background: var(--surface-2);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow);
+  text-decoration: none;
 }
 
 .suggestion:disabled {
@@ -211,34 +215,33 @@ body {
   cursor: not-allowed;
 }
 
-/* ---------- Messages ---------- */
+/* ── Messages ── */
 
 @keyframes msgFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(3px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .msg {
   display: flex;
-  gap: 0.85rem;
+  gap: 0.75rem;
   align-items: flex-start;
-  animation: msgFadeIn 0.22s ease-out;
+  animation: msgFadeIn 0.18s ease-out;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--surface-2);
 }
 
+.msg:last-child { border-bottom: none; }
+
+/* Wikipedia-style avatar — flat circle, no gradient */
 .avatar {
   flex-shrink: 0;
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   border: 1px solid var(--border);
   background: var(--surface-2);
   color: var(--text);
@@ -246,158 +249,164 @@ body {
 }
 
 .avatar-bot {
-  background: linear-gradient(135deg, #1c4d7a, #3d8bfd);
-  border-color: transparent;
-  box-shadow: 0 1px 3px rgba(61, 139, 253, 0.3);
+  background: var(--accent);
+  border-color: var(--accent-dim);
+  color: #fff;
+  font-size: 0.9rem;
 }
 
 .avatar-user {
-  background: linear-gradient(135deg, var(--surface-2), var(--bg-elevated));
+  background: var(--surface-2);
   color: var(--muted);
 }
 
 .msg-content {
   flex: 1;
   min-width: 0;
-  padding-top: 0.15rem;
+  padding-top: 0.1rem;
 }
 
+/* Wikipedia-style label — like "edit" section link */
 .msg-name {
-  font-size: 0.78rem;
-  font-weight: 600;
+  font-size: 0.76rem;
+  font-weight: bold;
   color: var(--muted);
-  margin-bottom: 0.3rem;
-  letter-spacing: 0.01em;
+  margin-bottom: 0.25rem;
+  letter-spacing: 0;
+}
+
+.msg-bot .msg-name {
+  color: var(--accent);
+  font-weight: bold;
 }
 
 .msg-body {
-  font-size: 0.95rem;
+  font-size: 0.94rem;
   line-height: 1.65;
   white-space: pre-wrap;
   word-break: break-word;
   color: var(--text);
 }
 
-.msg-bot .msg-body {
-  white-space: normal;
-}
+.msg-bot .msg-body { white-space: normal; }
 
 .msg-body-error {
   color: var(--error);
   white-space: pre-wrap;
+  padding: 0.5rem 0.75rem;
+  background: color-mix(in srgb, var(--error) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--error) 30%, transparent);
+  border-left: 3px solid var(--error);
+  border-radius: var(--radius);
+}
+
+/* User messages — Wikipedia talk-page indent style */
+.msg-user .msg-body {
+  background: var(--user-tint);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border-strong);
+  padding: 0.45rem 0.75rem;
+  border-radius: var(--radius);
+  display: inline-block;
+  max-width: 100%;
 }
 
 .msg-actions {
-  margin-top: 0.5rem;
+  margin-top: 0.4rem;
   opacity: 0;
   transition: opacity 0.15s ease;
 }
 
 .msg:hover .msg-actions,
-.msg:focus-within .msg-actions {
-  opacity: 1;
-}
+.msg:focus-within .msg-actions { opacity: 1; }
 
 .msg-copy {
   font: inherit;
-  font-size: 0.74rem;
-  color: var(--muted);
+  font-size: 0.72rem;
+  color: var(--accent);
   background: transparent;
   border: 1px solid var(--border);
-  padding: 0.2rem 0.55rem;
-  border-radius: 6px;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius);
   cursor: pointer;
-  transition:
-    color 0.15s ease,
-    background 0.15s ease,
-    border-color 0.15s ease;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: background 0.12s ease;
 }
 
 .msg-copy:hover {
-  color: var(--text);
   background: var(--surface-2);
-  border-color: var(--border-strong);
+  text-decoration: none;
 }
 
-/* ---------- Markdown content ---------- */
+/* ── Markdown content — Wikipedia article style ── */
 
-.msg-bot .msg-body > :first-child {
-  margin-top: 0;
-}
-.msg-bot .msg-body > :last-child {
-  margin-bottom: 0;
-}
+.msg-bot .msg-body > :first-child { margin-top: 0; }
+.msg-bot .msg-body > :last-child  { margin-bottom: 0; }
 
-.msg-bot .msg-body p {
-  margin: 0.5rem 0;
-}
+.msg-bot .msg-body p { margin: 0.55rem 0; }
 
+/* Serif headings like Wikipedia article sections */
 .msg-bot .msg-body h1,
 .msg-bot .msg-body h2,
 .msg-bot .msg-body h3,
 .msg-bot .msg-body h4 {
-  margin: 1.25rem 0 0.5rem;
+  font-family: var(--font-serif);
+  font-weight: normal;
+  margin: 1.2rem 0 0.4rem;
   line-height: 1.3;
-  font-weight: 650;
-  letter-spacing: -0.01em;
+  color: var(--text);
 }
 
-.msg-bot .msg-body h1 { font-size: 1.25rem; }
-.msg-bot .msg-body h2 { font-size: 1.1rem; }
-.msg-bot .msg-body h3 { font-size: 1rem; }
+.msg-bot .msg-body h1 { font-size: 1.4rem; border-bottom: 1px solid var(--border); padding-bottom: 0.2rem; }
+.msg-bot .msg-body h2 { font-size: 1.2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.15rem; }
+.msg-bot .msg-body h3 { font-size: 1.05rem; }
 .msg-bot .msg-body h4 { font-size: 0.95rem; color: var(--muted); }
 
 .msg-bot .msg-body ul,
 .msg-bot .msg-body ol {
-  padding-left: 1.4rem;
+  padding-left: 1.6rem;
   margin: 0.5rem 0;
 }
 
-.msg-bot .msg-body li {
-  margin: 0.3rem 0;
-}
+.msg-bot .msg-body li { margin: 0.25rem 0; }
+.msg-bot .msg-body li > p { margin: 0.15rem 0; }
+.msg-bot .msg-body li::marker { color: var(--muted); }
 
-.msg-bot .msg-body li > p {
-  margin: 0.2rem 0;
-}
-
-.msg-bot .msg-body li::marker {
-  color: var(--muted);
-}
-
+/* Wikipedia-blue links */
 .msg-bot .msg-body a {
   color: var(--accent);
-  text-decoration: none;
-  border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
-.msg-bot .msg-body a:hover {
-  border-bottom-color: var(--accent);
-}
+.msg-bot .msg-body a:visited { color: #795cb2; }
+.msg-bot .msg-body a:hover   { text-decoration: none; }
 
+/* Wikipedia-style blockquote */
 .msg-bot .msg-body blockquote {
   margin: 0.75rem 0;
-  padding: 0.5rem 0 0.5rem 0.85rem;
-  border-left: 3px solid var(--accent-dim);
+  padding: 0.4rem 0 0.4rem 0.85rem;
+  border-left: 3px solid var(--border-strong);
   color: var(--muted);
-  background: color-mix(in srgb, var(--accent) 5%, transparent);
-  border-radius: 0 6px 6px 0;
+  background: transparent;
+  font-style: italic;
 }
 
 .msg-bot .msg-body hr {
   border: none;
   border-top: 1px solid var(--border);
-  margin: 1.25rem 0;
+  margin: 1rem 0;
 }
 
 /* Inline code */
 .msg-bot .msg-body code {
-  background: var(--code-bg-2);
+  background: var(--code-bg);
   border: 1px solid var(--border);
-  padding: 0.1rem 0.35rem;
-  border-radius: 5px;
-  font-size: 0.86em;
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  padding: 0.1rem 0.3rem;
+  border-radius: var(--radius);
+  font-size: 0.85em;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 }
 
 /* Code blocks */
@@ -413,45 +422,43 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.45rem 0.85rem;
+  padding: 0.35rem 0.75rem;
   background: var(--code-bg-2);
   border-bottom: 1px solid var(--border);
-  font-size: 0.74rem;
+  font-size: 0.72rem;
 }
 
 .code-lang {
   color: var(--muted);
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   text-transform: lowercase;
   letter-spacing: 0.02em;
 }
 
 .code-copy {
   font: inherit;
-  font-size: 0.72rem;
-  color: var(--muted);
+  font-size: 0.7rem;
+  color: var(--accent);
   background: transparent;
-  border: 1px solid transparent;
-  padding: 0.15rem 0.5rem;
-  border-radius: 5px;
+  border: 1px solid var(--border);
+  padding: 0.12rem 0.45rem;
+  border-radius: var(--radius);
   cursor: pointer;
-  transition:
-    color 0.15s ease,
-    background 0.15s ease,
-    border-color 0.15s ease;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: background 0.12s ease;
 }
 
 .code-copy:hover {
-  color: var(--text);
   background: var(--surface-2);
-  border-color: var(--border-strong);
+  text-decoration: none;
 }
 
 .code-block pre {
   margin: 0;
-  padding: 0.85rem 1rem;
+  padding: 0.8rem 1rem;
   overflow-x: auto;
-  font-size: 0.86rem;
+  font-size: 0.85rem;
   line-height: 1.55;
 }
 
@@ -462,7 +469,8 @@ body {
   font-size: inherit;
 }
 
-/* Tables */
+/* ── Tables — classic Wikipedia wikitable style ── */
+
 .msg-bot .msg-body table {
   border-collapse: collapse;
   margin: 0.85rem 0;
@@ -471,7 +479,7 @@ body {
   display: block;
   overflow-x: auto;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  background: var(--bg-elevated);
 }
 
 .msg-bot .msg-body thead {
@@ -479,101 +487,90 @@ body {
 }
 
 .msg-bot .msg-body th {
-  font-weight: 600;
+  font-weight: bold;
   text-align: left;
-  padding: 0.55rem 0.8rem;
-  border-bottom: 1px solid var(--border-strong);
-  white-space: nowrap;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid var(--border);
   color: var(--text);
+  white-space: nowrap;
+  background: var(--surface-2);
 }
 
 .msg-bot .msg-body td {
-  padding: 0.5rem 0.8rem;
-  border-top: 1px solid var(--border);
+  padding: 0.4rem 0.7rem;
+  border: 1px solid var(--border);
   vertical-align: top;
 }
 
+.msg-bot .msg-body tbody tr:nth-child(even) td {
+  background: color-mix(in srgb, var(--surface-2) 40%, transparent);
+}
+
 .msg-bot .msg-body tbody tr:hover td {
-  background: color-mix(in srgb, var(--surface-2) 60%, transparent);
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
 }
 
-/* User message: show its own text plain */
-.msg-user .msg-body {
-  background: var(--user-tint);
-  border: 1px solid var(--border);
-  padding: 0.6rem 0.85rem;
-  border-radius: 10px;
-  display: inline-block;
-  max-width: 100%;
-}
-
-/* ---------- Typing indicator ---------- */
+/* ── Typing indicator ── */
 
 .typing {
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  padding: 0.4rem 0;
+  padding: 0.35rem 0;
 }
 
 .typing span {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background: var(--muted);
   animation: pulse 1.2s ease-in-out infinite;
 }
+
 .typing span:nth-child(2) { animation-delay: 0.15s; }
-.typing span:nth-child(3) { animation-delay: 0.3s; }
+.typing span:nth-child(3) { animation-delay: 0.30s; }
 
 @keyframes pulse {
   0%, 100% { opacity: 0.25; transform: scale(0.85); }
-  50%      { opacity: 1;    transform: scale(1); }
+  50%       { opacity: 1;    transform: scale(1); }
 }
 
-/* ---------- Composer ---------- */
+/* ── Composer — Wikipedia search-box style ── */
 
 .composer {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 0.5rem;
+  gap: 0.45rem;
   align-items: end;
   padding-top: 0.85rem;
   border-top: 1px solid var(--border);
-  position: relative;
 }
 
 .composer textarea {
   grid-column: 1 / -1;
   width: 100%;
   resize: none;
-  min-height: 3rem;
+  min-height: 2.8rem;
   max-height: 12rem;
-  padding: 0.75rem 0.95rem;
+  padding: 0.65rem 0.85rem;
   border-radius: var(--radius);
   border: 1px solid var(--border);
   background: var(--bg-elevated);
   color: var(--text);
   font: inherit;
-  font-size: 0.95rem;
+  font-size: 0.94rem;
   line-height: 1.5;
-  box-shadow: var(--shadow);
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
+  box-shadow: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .composer textarea:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow:
-    var(--shadow),
-    0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 20%, transparent);
 }
 
-.composer textarea::placeholder {
-  color: var(--muted-2);
-}
+.composer textarea::placeholder { color: var(--muted-2); }
 
 .composer .btn {
   grid-column: 2;
@@ -581,8 +578,8 @@ body {
 }
 
 .hint {
-  margin: 0.65rem 0 0;
-  font-size: 0.72rem;
+  margin: 0.5rem 0 0;
+  font-size: 0.71rem;
   color: var(--muted-2);
   text-align: center;
 }
@@ -591,80 +588,72 @@ body {
   background: var(--surface-2);
   border: 1px solid var(--border);
   border-bottom-width: 2px;
-  padding: 0.05rem 0.4rem;
-  border-radius: 4px;
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  font-size: 0.72rem;
+  padding: 0.05rem 0.35rem;
+  border-radius: var(--radius);
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.71rem;
   color: var(--muted);
 }
 
-/* ---------- Buttons ---------- */
+/* ── Buttons — Wikipedia-style flat buttons ── */
 
 .btn {
   font: inherit;
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: normal;
   cursor: pointer;
-  border-radius: 10px;
-  padding: 0.55rem 1.1rem;
+  border-radius: var(--radius);
+  padding: 0.45rem 1rem;
   border: 1px solid var(--border);
-  background: var(--bg-elevated);
+  background: var(--surface-2);
   color: var(--text);
-  transition:
-    background 0.15s ease,
-    border-color 0.15s ease,
-    transform 0.05s ease,
-    filter 0.15s ease,
-    opacity 0.15s ease;
+  transition: background 0.12s ease, border-color 0.12s ease, opacity 0.12s ease;
 }
 
-.btn:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn:not(:disabled):hover { background: var(--bg-elevated); border-color: var(--border-strong); }
+.btn:not(:disabled):active { filter: brightness(0.96); }
 
-.btn:not(:disabled):active {
-  transform: translateY(1px);
-}
-
+/* Primary — Wikipedia blue */
 .btn.primary {
-  background: var(--accent-strong);
+  background: var(--accent);
   border-color: var(--accent-dim);
   color: #fff;
-  font-weight: 600;
 }
 
 .btn.primary:not(:disabled):hover {
-  filter: brightness(1.07);
+  background: var(--accent-strong);
+  border-color: var(--accent-dim);
 }
 
+/* Ghost */
 .btn.ghost {
   background: transparent;
-  color: var(--muted);
+  border-color: transparent;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .btn.ghost:not(:disabled):hover {
   background: var(--surface-2);
-  color: var(--text);
+  border-color: var(--border);
+  text-decoration: none;
 }
 
-/* ---------- Accessibility ---------- */
+/* ── Accessibility ── */
 
 .sr-only {
   position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
