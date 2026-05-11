@@ -18,31 +18,19 @@
 - **CI/CD via GitHub Actions** — push to `main` deploys backend to EC2 over SSH and frontend to S3 simultaneously
 
 ---
-<!-- 
-## 🏛️ Architecture
 
-```
-                          push to main
-                               │
-               ┌───────────────┴───────────────┐
-               │      GitHub Actions CI/CD      │
-               └───────────────┬───────────────┘
-                 ┌─────────────┴─────────────┐
-                 │                           │
-         SSH → EC2                     aws s3 sync
-                 │                           │
-    ┌────────────▼──────────┐    ┌───────────▼────────────┐
-    │   Docker (EC2)        │    │   S3 Static Website    │
-    │   FastAPI + uvicorn   │◄───│   React + Vite SPA     │
-    │   port 8000           │    │   (browser fetch)      │
-    └────────────┬──────────┘    └────────────────────────┘
-                 │
-      ┌──────────┼──────────┐
-      │          │          │
-   Groq      Pinecone    fastembed
-  LLaMA 3   Vector DB    (ONNX)
-  (LLM)     (retrieval)  (embeddings)
-```
+
+---
+
+## 🏗️ System Architecture
+
+![System Architecture](./assets/pakeconbotgit2.png)
+
+---
+
+<!-- 
+
+## 🏛️ Architecture
 
 **Data flow per request:**
 1. User types a question in the React UI (S3)
